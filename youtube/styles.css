@@ -213,19 +213,6 @@ td a:hover { text-decoration: underline; }
 .row-actions { width: 72px; }
 .copy-button { white-space: nowrap; font-size: 12px; }
 
-.admin-dialog {
-  width: min(380px, calc(100% - 28px));
-  padding: 20px;
-  color: var(--text);
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 2px;
-}
-.admin-dialog::backdrop { background: rgba(0, 0, 0, .45); }
-.admin-dialog h2 { margin: 0 0 6px; font-size: 16px; font-weight: 500; }
-.admin-dialog p { margin: 0 0 14px; color: var(--muted); font-size: 12px; }
-.dialog-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
-
 html[data-theme="dark"] { color-scheme: dark; }
 html[data-theme="dark"] body,
 html[data-theme="dark"] .hero,
@@ -273,9 +260,6 @@ html[data-theme="dark"] th,
 html[data-theme="dark"] td { border-color: #3c4043; }
 html[data-theme="dark"] .video-cell img,
 html[data-theme="dark"] .thumb-placeholder { background: #303134; border-color: #3c4043; }
-html[data-theme="dark"] .admin-dialog { color: #e8eaed; background: #202124; border-color: #5f6368; }
-html[data-theme="dark"] .admin-dialog p { color: #9aa0a6; }
-
 @media (max-width: 1050px) {
   .controls-grid { grid-template-columns: repeat(3, 1fr); }
   .wide { grid-column: span 2; }

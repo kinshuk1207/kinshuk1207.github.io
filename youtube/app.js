@@ -106,19 +106,6 @@ function updateSelectionCount() {
   }
 }
 
-function requestAdminPassword() {
-  return new Promise((resolve) => {
-    const dialog = $('#admin-dialog');
-    const input = $('#admin-password');
-    input.value = '';
-    dialog.addEventListener('close', () => {
-      resolve(dialog.returnValue === 'confirm' ? input.value : '');
-    }, { once: true });
-    dialog.showModal();
-    input.focus();
-  });
-}
-
 async function addTerm(kind) {
   const input = kind === 'keyword' ? $('#new-keyword') : $('#new-modifier');
   const value = input.value.trim();
@@ -127,32 +114,12 @@ async function addTerm(kind) {
     input.focus();
     return;
   }
-  async function submit(adminToken = '') {
-    const headers = { 'Content-Type': 'application/json' };
-    if (adminToken) headers['X-Admin-Token'] = adminToken;
-    return request('/api/terms', {
+  try {
+    const data = await request('/api/terms', {
       method: 'POST',
-      headers,
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ kind, value }),
     });
-  }
-
-  try {
-    let adminToken = '';
-    try { adminToken = sessionStorage.getItem('yt-explorer-admin-token') || ''; } catch (error) {}
-    let data;
-    try {
-      data = await submit(adminToken);
-    } catch (error) {
-      if (API_BASE_URL && [401, 403].includes(error.status)) {
-        adminToken = await requestAdminPassword();
-        if (!adminToken) throw error;
-        data = await submit(adminToken);
-        try { sessionStorage.setItem('yt-explorer-admin-token', adminToken); } catch (storageError) {}
-      } else {
-        throw error;
-      }
-    }
     state.terms = data.terms;
     renderTerms(false, data.file, { kind, value: value.replace(/\s+/g, ' ') });
     input.value = '';
