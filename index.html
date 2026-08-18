@@ -146,6 +146,18 @@
     </section>
   </main>
 
+  <dialog class="admin-dialog" id="admin-dialog">
+    <form method="dialog">
+      <h2>Admin password</h2>
+      <p>Enter the password chosen when the public backend was started.</p>
+      <input id="admin-password" type="password" autocomplete="current-password" required aria-label="Admin password">
+      <div class="dialog-actions">
+        <button class="secondary" value="cancel" formnovalidate>Cancel</button>
+        <button class="primary" value="confirm">Continue</button>
+      </div>
+    </form>
+  </dialog>
+
   <template id="term-template">
     <label class="term-chip"><input type="checkbox"><span></span></label>
   </template>

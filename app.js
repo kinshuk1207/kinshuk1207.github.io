@@ -106,6 +106,19 @@ function updateSelectionCount() {
   }
 }
 
+function requestAdminPassword() {
+  return new Promise((resolve) => {
+    const dialog = $('#admin-dialog');
+    const input = $('#admin-password');
+    input.value = '';
+    dialog.addEventListener('close', () => {
+      resolve(dialog.returnValue === 'confirm' ? input.value : '');
+    }, { once: true });
+    dialog.showModal();
+    input.focus();
+  });
+}
+
 async function addTerm(kind) {
   const input = kind === 'keyword' ? $('#new-keyword') : $('#new-modifier');
   const value = input.value.trim();
@@ -132,7 +145,7 @@ async function addTerm(kind) {
       data = await submit(adminToken);
     } catch (error) {
       if (API_BASE_URL && [401, 403].includes(error.status)) {
-        adminToken = window.prompt('Enter the admin password to change terms:') || '';
+        adminToken = await requestAdminPassword();
         if (!adminToken) throw error;
         data = await submit(adminToken);
         try { sessionStorage.setItem('yt-explorer-admin-token', adminToken); } catch (storageError) {}
